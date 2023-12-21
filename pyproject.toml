@@ -1,0 +1,18 @@
+[project]
+name = "emobots"
+version = "0.0.1"
+authors = [
+  { name="Dirk Fortmeier", email="d.fortmeier@gmail.com" },
+]
+description = "A small library for creating conversational agents for interactive adventures and chat applications."
+readme = "Readme.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/fortmeier/emobots"
+Issues = "https://github.com/fortmeier/emobots/issues"
