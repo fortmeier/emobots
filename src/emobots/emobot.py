@@ -28,11 +28,17 @@ class Emobot:
         If uncertain, simply state 'None'.
         """
 
+        self._roleplay_system_prompt = f"""Complete what {self.name}
+        would say in a style and grammar that matches
+        their background. Ommit the name at the beginning of the response. Only what they would say."""
+
         self.chat_messages = []
 
         self.current_feeling = "Neutral."
 
-    def interaction_step(
+        self.intention = None
+
+    def response_generator(
         self,
         user_input,
         chat_messages,
@@ -73,18 +79,20 @@ class Emobot:
         messages.append(
             {
                 "role": "user",
-                "content": f"""Complete what {self.name}
-                would say in a style and grammar that matches
-                their background, but only a single or a few sentences.""",
+                "content": self._roleplay_system_prompt,
             }
         )
 
-        completion = self.client.chat.completions.create(
-            model="gpt-3.5-turbo", messages=messages, temperature=0.3
-        )
-        response = completion.choices[0].message.content
+        response_message = ""
 
-        chat_messages.append({"role": "assistant", "content": response})
+        for completion in self.client.chat.completions.create(
+            model="gpt-3.5-turbo", messages=messages, temperature=0.3, stream=True
+        ):
+            response = completion.choices[0].delta.content or ""
+            response_message += response
+            yield response
+
+        chat_messages.append({"role": "assistant", "content": response_message})
 
         mood_analysis_response = mood_analysis(
             self.client, self.name, chat_messages, mood_analyis_system_prompt
@@ -100,10 +108,10 @@ class Emobot:
 
         logging.info(f"intention_analysis_response: {intention_analysis_response}")
 
-        return response, intention_analysis_response
+        self.intention = intention_analysis_response
 
-    def interaction(self, user_input):
-        response, intention = self.interaction_step(
+    def interaction_generator(self, user_input):
+        generator = self.response_generator(
             user_input,
             self.chat_messages,
             self.current_feeling,
@@ -112,4 +120,4 @@ class Emobot:
             self._mood_analyis_system_prompt,
         )
 
-        return response, intention
+        return generator
