@@ -198,5 +198,5 @@ random_character_traits = [
     "Temperamental",
     "Unreliable",
     "Vindictive",
-    "Vulgar"
-    ]
+    "Vulgar",
+]

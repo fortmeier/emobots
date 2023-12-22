@@ -20,17 +20,37 @@ def strip_response(response, name):
     return response
 
 
-def get_name_from_description(description):
+def get_name_from_description(client, description):
     name_query_promt = f"Please state the name of the person descriped: {description}. It is important, just the name, nothing more. Only the name."
     messages = [
         {"role": "system", "content": name_query_promt},
     ]
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo", messages=messages, temperature=0.0
     )
-    response = completion["choices"][0]["message"]["content"]
+    response = completion.choices[0].message.content
 
     response = response.strip()
     response = response.strip(".!?\"'")
 
+    name = response
+
     return response
+
+
+def get_age_from_description(client, description):
+    name_query_promt = f"Please state the age of the person descriped: {description}. It is important, just the name, nothing more. Only the name."
+    messages = [
+        {"role": "system", "content": name_query_promt},
+    ]
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo", messages=messages, temperature=0.0
+    )
+    response = completion.choices[0].message.content
+
+    response = response.strip()
+    response = response.strip(".!?\"'")
+
+    age = response
+
+    return age

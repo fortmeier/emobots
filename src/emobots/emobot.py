@@ -1,12 +1,13 @@
 import openai
 
-from lib.intention import intention_analysis
-from lib.mood import mood_analysis
-from lib.tools import message2string, strip_response
+from emobots.intention import intention_analysis
+from emobots.mood import mood_analysis
+from emobots.tools import message2string, strip_response
 
 
 class Emobot:
-    def __init__(self, name, person_desc) -> None:
+    def __init__(self, client, name, person_desc) -> None:
+        self.client = client
         self.name = name
         self._reccurrent_system_prompt = f"This is {name}: {person_desc}."
 
@@ -77,10 +78,10 @@ class Emobot:
             }
         )
 
-        completion = openai.ChatCompletion.create(
+        completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo", messages=messages, temperature=0.3
         )
-        response = completion["choices"][0]["message"]["content"]
+        response = completion.choices[0].message.content
 
         # response = strip_response(response, self.name)
         print(f"{self.name}:", end=" ")
@@ -93,14 +94,14 @@ class Emobot:
         chat_messages.append({"role": "assistant", "content": response})
 
         mood_analysis_response = mood_analysis(
-            self.name, chat_messages, mood_analyis_system_prompt
+            self.client, self.name, chat_messages, mood_analyis_system_prompt
         )
 
         current_feeling = mood_analysis_response
         print(f"({mood_analysis_response})")
 
         intention_analysis_response = intention_analysis(
-            self.name, chat_messages, intention_analyis_system_prompt
+            self.client, self.name, chat_messages, intention_analyis_system_prompt
         )
 
         print(f"(intention: {intention_analysis_response})")
