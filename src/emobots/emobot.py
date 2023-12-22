@@ -48,10 +48,6 @@ class Emobot:
         mood_analyis_system_prompt,
     ):
         chat_messages.append({"role": "user", "content": user_input})
-        # !!! maybe this is important
-        # chat_messages.append(
-        #    {"role": "system", "content": reccurrent_system_prompt + current_feeling}
-        # )
 
         chat_history = "\n".join(
             [
@@ -83,6 +79,8 @@ class Emobot:
             }
         )
 
+        logging.info(f"messages: {messages}")
+
         response_message = ""
 
         for completion in self.client.chat.completions.create(
@@ -93,6 +91,8 @@ class Emobot:
             yield response
 
         chat_messages.append({"role": "assistant", "content": response_message})
+
+        logging.info(f"response_message: {response_message}")
 
         mood_analysis_response = mood_analysis(
             self.client, self.name, chat_messages, mood_analyis_system_prompt
