@@ -32,14 +32,13 @@ class Emobot:
 
     def interaction_step(
         self,
+        user_input,
         chat_messages,
         current_feeling,
         reccurrent_system_prompt,
         intention_analyis_system_prompt,
         mood_analyis_system_prompt,
     ):
-        user_input = input("you: ")
-
         chat_messages.append({"role": "user", "content": user_input})
         # !!! maybe this is important
         # chat_messages.append(
@@ -108,21 +107,14 @@ class Emobot:
 
         return response, intention_analysis_response
 
-    def interaction_loop(self):
-        running = True
-        while running is True:
-            response, intention = self.interaction_step(
-                self.chat_messages,
-                self.current_feeling,
-                self._reccurrent_system_prompt,
-                self._intention_analyis_system_prompt,
-                self._mood_analyis_system_prompt,
-            )
+    def interaction(self, user_input):
+        response, intention = self.interaction_step(
+            user_input,
+            self.chat_messages,
+            self.current_feeling,
+            self._reccurrent_system_prompt,
+            self._intention_analyis_system_prompt,
+            self._mood_analyis_system_prompt,
+        )
 
-            if "2" in intention:
-                print("You have been dismissed!")
-                return 2
-
-            if "4" in intention:
-                print("Your offer has been accepted!")
-                return 4
+        return response, intention
