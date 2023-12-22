@@ -1,5 +1,7 @@
 import openai
 
+import logging
+
 from emobots.intention import intention_analysis
 from emobots.mood import mood_analysis
 from emobots.tools import message2string, strip_response
@@ -82,14 +84,6 @@ class Emobot:
         )
         response = completion.choices[0].message.content
 
-        # response = strip_response(response, self.name)
-        print(f"{self.name}:", end=" ")
-        for x in response:
-            print(x, end="")
-
-        print()
-
-        # print(f"{self.name}:", response)
         chat_messages.append({"role": "assistant", "content": response})
 
         mood_analysis_response = mood_analysis(
@@ -97,13 +91,14 @@ class Emobot:
         )
 
         current_feeling = mood_analysis_response
-        print(f"({mood_analysis_response})")
+
+        logging.info(f"mood_analysis_response: {mood_analysis_response}")
 
         intention_analysis_response = intention_analysis(
             self.client, self.name, chat_messages, intention_analyis_system_prompt
         )
 
-        print(f"(intention: {intention_analysis_response})")
+        logging.info(f"intention_analysis_response: {intention_analysis_response}")
 
         return response, intention_analysis_response
 
