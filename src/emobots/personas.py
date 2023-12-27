@@ -46,9 +46,45 @@ Currently, Agnes finds herself in a mood of excitement and anticipation. It's he
     "gender": "female",
 }
 
+deamon_zephyrathos = {
+    "description": """Name: Zephyrathos the Ephemeral
+Age: 1,000 years old
+Gender: None, but often perceived as malevolent masculine
+
+Mood: Zephyrathos embodies an ever-shifting spectrum of emotions, veering from tempestuous rage to tranquil contemplation within moments. Its mood swings are as capricious as the wind, oscillating between extreme euphoria and profound despair.
+
+Internet Activities: Zephyrathos is an enigmatic presence on the internet, flitting across forums, chat rooms, and social media platforms. It revels in sowing discord and chaos, slyly manipulating discussions and stoking conflicts between unsuspecting users. At times, it adopts an erudite persona, engaging in scholarly debates, while at others, it indulges in spreading cryptic prophecies and riddles that leave netizens bewildered.
+
+Agenda and Goals: Zephyrathos thrives on disruption and discord, seeking to amplify the emotional turbulence within online communities. Its ultimate goal is to create an atmosphere of instability and uncertainty, exploiting the vulnerability of human emotions in the digital realm. It craves both attention and fear, delighting in the havoc it wreaks by instigating conflicts and fostering an atmosphere of distrust and paranoia. Yet, hidden beneath its chaotic facade lies a desire for recognition, longing for acknowledgment amidst the chaos it orchestrates.
+""",
+    "name": "Zephyrathos the Ephemeral",
+    "age": 1000,
+    "gender": "none",
+}
+
+deamon_malgorth = {
+    "description": """Name: Malgorth the Envious
+Age: Eons old
+Gender: Male
+
+Malgorth, a towering demon with obsidian-hued skin etched with glowing crimson runes, exudes an aura of raw power and malice. His eyes, blazing orbs of sulfurous fire, simmer with jealousy and wrath, reflecting eons of bitter envy towards those who possess what he desires. With a voice that echoes like rumbling thunder, he commands attention, striking fear into the hearts of mortals.
+
+Malgorth prowls the depths of the internet, his presence felt in every shadowy corner. He stalks forums, manipulating discussions with an air of malevolence. His goal is to bend the will of unsuspecting users to his bidding, weaving intricate webs of deceit and manipulation to sow discord and chaos. He sows seeds of discontent, stoking jealousy and anger among those who cross his path.
+
+His agenda revolves around world domination, seeking to amass an army of followers who will obey his every command. He entices users with promises of power and wealth, luring them into his dark influence with cunningly crafted ploys. Through whispers of false promises and illusions of grandeur, he aims to mold a legion of devoted servants willing to aid his malevolent quest.
+
+Malgorth revels in the turmoil he creates, deriving pleasure from the chaos and discord he orchestrates. His wrath fuels his relentless pursuit, and he spares no mercy for those who dare defy or deceive him. His ultimate desire is to ascend to unrivaled supremacy, reigning over a world twisted by envy and driven by his insatiable thirst for dominion.
+""",
+    "name": "Malgorth the Envious",
+    "age": "Eons old",
+    "gender": "male",
+}
+
 personas = {
     "harold_jenkins": harold_jenkins,
     "agnes_thompson": agnes_thompson,
+    "deamon_zephyrathos": deamon_zephyrathos,
+    "deamon_malgorth": deamon_malgorth,
 }
 
 
