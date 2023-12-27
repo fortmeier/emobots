@@ -28,9 +28,22 @@ class Emobot:
         If uncertain, simply state 'None'.
         """
 
-        self._roleplay_system_prompt = f"""Complete what {self.name}
-        would say in a style and grammar that matches
-        their background. Ommit the name at the beginning of the response. Only what they would say."""
+        self._roleplay_system_prompt = f"""Imagine you are {self.name}. Write a response that {self.name}
+        would write in a chat in a style and grammar that matches
+        {self.name}'s background and proficiency with computers. Stay in character and tell only as much as the character would do.
+        
+        Keep in mind that people often are not aware of their character traits and have a hard time describing themselves.
+        Also, they do not always speak in full sentences.
+
+        Also, they do not always speak in full sentences.
+
+        Also, people sometimes are lying or hiding things.
+
+        
+        {self.name} is chatting with the user only, often no full sentences and few words. Typing is hard work.
+         
+        Only give the response of {self.name} without any other text or responses of other people."""
+        # Also, ommit the '{self.name}: ' or 'Other:' at the beginning of the response."""
 
         self.chat_messages = []
 
@@ -42,20 +55,11 @@ class Emobot:
         self,
         user_input,
         chat_messages,
-        current_feeling,
         reccurrent_system_prompt,
         intention_analyis_system_prompt,
         mood_analyis_system_prompt,
     ):
         chat_messages.append({"role": "user", "content": user_input})
-
-        chat_history = "\n".join(
-            [
-                message2string(m, self.name)
-                for m in chat_messages
-                if m["role"] != "system"
-            ]
-        )
 
         messages = []
 
@@ -63,18 +67,16 @@ class Emobot:
             {
                 "role": "system",
                 "content": reccurrent_system_prompt
-                + "\n"
-                + f"{self.name} is feeling: "
-                + current_feeling
-                + "\n"
-                + "Also, this chat history is given: \n"
-                + chat_history
-                + f"\{self.name}: ",
-            }
+                + "\n\n\n"
+                + "Also, this chat history is given: \n\n",
+            },
+        )
+        messages.extend(
+            chat_messages,
         )
         messages.append(
             {
-                "role": "user",
+                "role": "system",
                 "content": self._roleplay_system_prompt,
             }
         )
@@ -84,7 +86,7 @@ class Emobot:
         response_message = ""
 
         for completion in self.client.chat.completions.create(
-            model="gpt-3.5-turbo", messages=messages, temperature=0.3, stream=True
+            model="gpt-3.5-turbo", messages=messages, temperature=0.5, stream=True
         ):
             response = completion.choices[0].delta.content or ""
             response_message += response
@@ -98,7 +100,14 @@ class Emobot:
             self.client, self.name, chat_messages, mood_analyis_system_prompt
         )
 
-        current_feeling = mood_analysis_response
+        self.current_feeling = mood_analysis_response
+
+        chat_messages.append(
+            {
+                "role": "system",
+                "content": f"{self.name} is feeling: " + self.current_feeling,
+            }
+        )
 
         logging.info(f"mood_analysis_response: {mood_analysis_response}")
 
@@ -114,7 +123,6 @@ class Emobot:
         generator = self.response_generator(
             user_input,
             self.chat_messages,
-            self.current_feeling,
             self._reccurrent_system_prompt,
             self._intention_analyis_system_prompt,
             self._mood_analyis_system_prompt,

@@ -7,7 +7,7 @@ def create_random_person_description(client, temperature=1.0):
     inspiration = ", ".join(random.sample(random_character_traits, 3))
     gender = random.choice(["male", "female"])
     age = random.randint(18, 72)
-    person_generation_prompt = f"Please generate a fictious description of a {inspiration} person ({gender}, {age} years old) located anywhere on the planet, chatting in the internet. State their name, age, gender, where they are from, hobbies, family etc. Also describe their mission why they are in the internet and their current mood."
+    person_generation_prompt = f"Please generate a fictious description of a {inspiration} person ({gender}, {age} years old) located anywhere on the planet, chatting in the internet. State their name, age, gender, where they are from, hobbies, family etc. Also describe their mission why they are in the internet and chatting with the user. Also state their current mood."
     messages = [
         {"role": "system", "content": person_generation_prompt},
     ]
